@@ -46,9 +46,9 @@ func InitConfig() {
 			SimilarityThreshold: getEnvAsFloat("SIMILARITY_THRESHOLD", 0.7),
 		},
 		LLM: LLMConfig{
-			Mode:        getEnv("LLM_MODE", os.Getenv("local")),
-			Model:       getEnv("OLLAMA_MODEL", os.Getenv("qwen2.5:7b")),
-			BaseURL:     getEnv("OLLAMA_BASE_URL", os.Getenv("http://localhost:14434")),
+			Mode:        getEnv("LLM_MODE", "local"),
+			Model:       getEnv("OLLAMA_MODEL", "qwen2.5:7b"),
+			BaseURL:     getEnv("OLLAMA_BASE_URL", "http://localhost:11434"),
 			Temperature: getEnvAsFloat32("LLM_TEMPERATURE", 0.7),
 			MaxTokens:   getEnvAsInt("MAX_TOKENS", 1024),
 		},

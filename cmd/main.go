@@ -72,7 +72,7 @@ func main() {
 
 	//6.生成回答
 	var answer string
-	if cfg.LLM.Model == "local" {
+	if cfg.LLM.Mode == "local" {
 		//检查 Ollama服务
 		fmt.Println("🧠 检查Ollama服务...")
 		ollamaClient := ollama.NewClient(cfg.LLM.BaseURL, cfg.LLM.Model)
