@@ -2,10 +2,10 @@ package rag
 
 import (
 	"fmt"
-	"mini-rag-go/config"
-	"mini-rag-go/models"
-	"mini-rag-go/ollama"
-	"mini-rag-go/utils"
+	"mini-rag-go/internal/config"
+	models2 "mini-rag-go/internal/models"
+	"mini-rag-go/internal/ollama"
+	"mini-rag-go/internal/utils"
 	"strings"
 )
 
@@ -22,12 +22,12 @@ func NewGenerator(client *ollama.Client) *Generator {
 }
 
 // GenerateAnswer 生成回答
-func (g *Generator) GenerateAnswer(query string, searchResults []models.SearchResult) (string, error) {
+func (g *Generator) GenerateAnswer(query string, searchResults []models2.SearchResult) (string, error) {
 	if len(searchResults) == 0 {
 		return "抱歉，没有找到相关信息。", nil
 	}
 	//转换为 Document切片
-	documents := make([]models.Document, len(searchResults))
+	documents := make([]models2.Document, len(searchResults))
 	for i, result := range searchResults {
 		documents[i] = result.Document
 	}
@@ -39,7 +39,7 @@ func (g *Generator) GenerateAnswer(query string, searchResults []models.SearchRe
 		prompt = ollama.BuildRAGPrompt(query, documents)
 	}
 	// 设置生成选项
-	options := models.RequestOptions{
+	options := models2.RequestOptions{
 		Temperature: config.Global.LLM.Temperature,
 		TopP:        0.9,
 		TopK:        40,
@@ -56,7 +56,7 @@ func (g *Generator) GenerateAnswer(query string, searchResults []models.SearchRe
 }
 
 // GenerateAnswerWithFallback 带降级的回答生成
-func (g *Generator) GenerateAnswerWithFallback(query string, searchResults []models.SearchResult) string {
+func (g *Generator) GenerateAnswerWithFallback(query string, searchResults []models2.SearchResult) string {
 	// 首先尝试使用 LLM生成
 	if config.Global.LLM.Mode == "local" {
 		answer, err := g.GenerateAnswer(query, searchResults)
@@ -70,7 +70,7 @@ func (g *Generator) GenerateAnswerWithFallback(query string, searchResults []mod
 }
 
 // generateRuleBasedAnswer 基于规则的生成（降级方案）
-func generateRuleBaseAnswer(query string, searchResults []models.SearchResult) string {
+func generateRuleBaseAnswer(query string, searchResults []models2.SearchResult) string {
 	var answer strings.Builder
 
 	if len(searchResults) == 0 {

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"mini-rag-go/models"
+	models2 "mini-rag-go/internal/models"
 	"net/http"
 	"strings"
 	"time"
@@ -28,8 +28,8 @@ func NewClient(baseURL, model string) *Client {
 }
 
 // Generate 生成文本
-func (c *Client) Generate(prompt string, options models.RequestOptions) (string, error) {
-	request := models.OllamaRequest{
+func (c *Client) Generate(prompt string, options models2.RequestOptions) (string, error) {
+	request := models2.OllamaRequest{
 		Model:   c.Model,
 		Prompt:  prompt,
 		Stream:  false,
@@ -50,7 +50,7 @@ func (c *Client) Generate(prompt string, options models.RequestOptions) (string,
 	if err != nil {
 		return "", fmt.Errorf("读取响应失败：%v", err)
 	}
-	var response models.OllamaResponse
+	var response models2.OllamaResponse
 	if err := json.Unmarshal(body, &response); err != nil {
 		return "", fmt.Errorf("解析响应失败：%v", err)
 	}
@@ -58,8 +58,8 @@ func (c *Client) Generate(prompt string, options models.RequestOptions) (string,
 }
 
 // GenerateStream 流式生成
-func (c *Client) GenerateStream(prompt string, options models.RequestOptions, callback func(string)) error {
-	request := models.OllamaRequest{
+func (c *Client) GenerateStream(prompt string, options models2.RequestOptions, callback func(string)) error {
+	request := models2.OllamaRequest{
 		Model:   c.Model,
 		Prompt:  prompt,
 		Stream:  true,
@@ -83,7 +83,7 @@ func (c *Client) GenerateStream(prompt string, options models.RequestOptions, ca
 	}
 	decoder := json.NewDecoder(resp.Body)
 	for {
-		var response models.OllamaResponse
+		var response models2.OllamaResponse
 		if err := decoder.Decode(&response); err != nil {
 			if err == io.EOF {
 				break
@@ -101,7 +101,7 @@ func (c *Client) GenerateStream(prompt string, options models.RequestOptions, ca
 }
 
 // BuildRAGPrompt 构建RAG提示词
-func BuildRAGPrompt(query string, context []models.Document) string {
+func BuildRAGPrompt(query string, context []models2.Document) string {
 	var contextBuilder strings.Builder
 	//系统指令
 	contextBuilder.WriteString("你是一个专业的文档问答助手。请根据提供的文档内容准确回答问题。\n")
@@ -121,7 +121,7 @@ func BuildRAGPrompt(query string, context []models.Document) string {
 }
 
 // BuildRefundPrompt 构建退款相关提示词
-func BuildRefundPrompt(query string, context []models.Document) string {
+func BuildRefundPrompt(query string, context []models2.Document) string {
 	var contextBuilder strings.Builder
 	contextBuilder.WriteString("你是一个专业的电商客服助手，专门处理退款相关咨询。\n")
 	contextBuilder.WriteString("请根据提供的文档信息，清晰、准确地回答用户的退款流程问题。\n\n")

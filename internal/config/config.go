@@ -39,7 +39,7 @@ func InitConfig() {
 	Global = &Config{
 		App: AppConfig{
 			DocsPath:            getEnv("DOCS_PATH", "docs"),
-			VectorStorePath:     getEnv("VECTOR_STORE_PATH", "store/vector_store.json"),
+			VectorStorePath:     getEnv("VECTOR_STORE_PATH", "internal/store/vector_store.json"),
 			ChunkSize:           getEnvAsInt("CHUNK_SIZE", 500),
 			ChunkOverlap:        getEnvAsInt("CHUNK_OVERLAP", 50),
 			TopK:                getEnvAsInt("TOP_K", 3),

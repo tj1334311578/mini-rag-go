@@ -2,9 +2,9 @@ package rag
 
 import (
 	"fmt"
-	"mini-rag-go/models"
-	"mini-rag-go/store"
-	"mini-rag-go/utils"
+	"mini-rag-go/internal/models"
+	"mini-rag-go/internal/store"
+	"mini-rag-go/internal/utils"
 	"os"
 	"path/filepath"
 	"strings"

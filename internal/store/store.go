@@ -3,9 +3,9 @@ package store
 import (
 	"encoding/json"
 	"fmt"
-	"mini-rag-go/models"
-	"mini-rag-go/utils"
-	"mini-rag-go/vector"
+	"mini-rag-go/internal/models"
+	"mini-rag-go/internal/utils"
+	"mini-rag-go/internal/vector"
 	"os"
 	"sort"
 	"sync"

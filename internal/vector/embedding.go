@@ -2,7 +2,7 @@ package vector
 
 import (
 	"hash/fnv"
-	"mini-rag-go/utils"
+	"mini-rag-go/internal/utils"
 	"strings"
 )
 
